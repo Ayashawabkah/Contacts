@@ -1,0 +1,111 @@
+﻿@page "/"
+@using Contact_Task.Data;
+@using Contact_Task.Services;
+@using global::Contact_Task.Data;
+@inject ContactService ContactService
+@inject NavigationManager NavigationManager
+
+
+
+<h1>Contact List</h1>
+
+<!-- Add Button -->
+
+@*<button class="btn btn-primary" type="button" @onclick="() => SortContacts(Ascending) ">Sort Ascending</button>
+<button class="btn btn-primary" type="button" @onclick="() => SortContacts(Descending) ">Sort Descending</button>
+*@
+
+    <h5>
+    &emsp;First Name &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; Last Name
+    </h5>
+
+
+
+<style>
+    
+
+    .list-item {
+        justify-content: space-between;
+        justify-items:baseline;
+        
+    }
+</style>
+<div >
+
+
+   
+    @foreach (var contact in ContactService.GetAllContacts())
+    {
+        <ul class="list-item">
+            <li>
+
+                <style>
+                    .column {
+                        float: left;
+                        width: 25%; 
+                    }
+                </style>
+                <div class="column"> <a @onclick="() => ViewContact(contact.Id)"> @contact.FirstName</a></div>
+                <div class="column"> @contact.LastName</div>
+                <div class="column"><button class="btn btn-primary" @onclick="() => EditContact(contact.Id)">Edit</button></div>
+                <div class="column"><button class="btn btn-primary" @onclick="() => DeleteContact(contact.Id)">Delete</button></div>
+               
+               
+                
+                
+            </li>
+        </ul>
+
+    }
+
+
+  
+</div>
+
+
+
+    
+
+
+
+
+
+
+@code {
+
+
+
+    private List<Contact> contacts = new List<Contact>();
+    private string sortBy = "FirstName";
+    private bool ascending = true;
+    public List<string> Items { get; set; } = new List<string>();
+    //public string Ascending = "asc";
+    //public string Descending = "desc";
+
+    
+   
+
+    void EditContact(int id)
+    {
+        NavigationManager.NavigateTo($"/editcontact/{id}");
+    }
+
+    void DeleteContact(int id)
+    {
+        ContactService.DeleteContact(id);
+    }
+
+    void ViewContact(int id)
+    {
+        NavigationManager.NavigateTo($"/contactdetails/{id}");
+    }
+
+    //void SortContacts(string sort)
+    //{
+    //    NavigationManager.NavigateTo($"/sorted/{sort}");
+    //}
+
+
+   
+
+}

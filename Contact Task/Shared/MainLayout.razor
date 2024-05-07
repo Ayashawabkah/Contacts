@@ -1,0 +1,29 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+
+
+<div style="background-color : #cbbee4f5 " class="page">
+    <div class="sidebar">
+        <NavMenu />
+       
+    </div>
+
+    <main>
+        <div style="background-color:#0b0735f5 " class="top-row px-4">
+            <button class="btn btn-primary" @onclick="() => AddNewContact()">Add New Contact</button>
+
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    void AddNewContact()
+    {
+        NavigationManager.NavigateTo("/addcontact");
+    }
+}

@@ -1,0 +1,36 @@
+﻿@using Contact_Task.Data;
+@using Contact_Task.Services;
+@inject ContactService ContactService
+@inject NavigationManager NavigationManager
+
+<h3>Sorted</h3>
+
+
+
+<h5>Sorted List</h5>
+
+
+
+
+
+@code {
+
+        public List<string> Items { get; set; } = new List<string>();
+
+
+        public void OnGet(string sort)
+        {
+            if (!string.IsNullOrEmpty(sort))
+            {
+                if (sort == "asc")
+                {
+                    Items.Sort();
+                }
+                else if (sort == "desc")
+                {
+                    Items.Sort((a, b) => b.CompareTo(a));
+                }
+            }
+        }
+   
+}

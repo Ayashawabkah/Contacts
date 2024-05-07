@@ -1,0 +1,52 @@
+﻿<h3>AddContact</h3>
+
+@page "/addcontact"
+@using Contact_Task.Data;
+@using Contact_Task.Services;
+@using global::Contact_Task.Data;
+@inject ContactService ContactService
+@inject NavigationManager NavigationManager
+
+<EditForm Model="@contact" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    
+
+    <div>
+        <div> <label for="firstName">First Name:</label></div>
+        <div><InputText id="firstName" @bind-Value="contact.FirstName" /></div>
+        <div>   <ValidationMessage For="@(() => contact.FirstName)" /></div>
+
+    </div>
+    <div>
+        <div> <label for="lastName">Last Name:</label></div>
+        <div><InputText id="lastName" @bind-Value="contact.LastName" /></div>
+        <div><ValidationMessage For="@(() => contact.LastName)" /></div>
+   
+    </div>
+    <div>
+        <div> <label for="email">Email:</label></div>
+        <div> <InputText id="email" @bind-Value="contact.Email" /></div>
+        <div> <ValidationMessage For="@(() => contact.Email)" /></div>   
+       
+    </div>
+    <div>
+        <div><label for="phoneNumber">Phone Number:</label></div>
+        <div>  <InputText id="phoneNumber" @bind-Value="contact.PhoneNumber" /></div>
+        <div> <ValidationMessage For="@(() => contact.PhoneNumber)" /></div>
+        
+      
+       
+    </div>
+    <button class="btn btn-primary" type="submit">Add Contact</button>
+</EditForm>
+
+@code {
+    private Contact contact = new();
+
+    private void HandleValidSubmit()
+    {
+        ContactService.AddContact(contact);
+        contact = new(); // Clear the form after submit
+        NavigationManager.NavigateTo("/"); // Navigate back to the main list
+    }
+}

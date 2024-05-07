@@ -1,0 +1,40 @@
+﻿@page "/contactdetails/{Id:int}"
+@using Contact_Task.Data;
+@using Contact_Task.Services;
+@inject ContactService ContactService
+@inject NavigationManager NavigationManager
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Contact contact;
+
+    protected override void OnInitialized()
+    {
+        contact = ContactService.GetContact(Id);
+    }
+}
+
+@if (contact != null)
+{
+    <div>
+        <h2>Contact Details</h2>
+        <div><strong>First Name:&emsp;&emsp;</strong> @contact.FirstName</div>
+        <div><strong>Last Name:&emsp;&emsp;</strong> @contact.LastName</div>
+        <div><strong>Email:&ensp;&emsp;&emsp;&emsp;&emsp;</strong> @contact.Email</div>
+        <div><strong>Phone Number:</strong> @contact.PhoneNumber</div>
+        <button class="btn btn-primary" @onclick="BackToList">Back to List</button>
+    </div>
+}
+else
+{
+    <p>Contact not found.</p>
+}
+
+@functions {
+    void BackToList()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

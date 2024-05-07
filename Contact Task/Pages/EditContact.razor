@@ -1,0 +1,50 @@
+﻿@page "/editcontact/{Id:int}"
+@using Contact_Task.Data;
+@using Contact_Task.Services;
+@using global::Contact_Task.Data;
+@inject ContactService ContactService
+@inject NavigationManager NavigationManager
+
+<EditForm Model="@contact" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>First Name:</label>
+        <InputText id="firstName" @bind-Value="contact.FirstName" />
+    </div>
+    <div>
+        <label>Last Name:</label>
+        <InputText id="lastName" @bind-Value="contact.LastName" />
+    </div>
+    <div>
+        <label>Email:</label>
+        <InputText id="email" @bind-Value="contact.Email" />
+    </div>
+    <div>
+        <label>Phone Number:</label>
+        <InputText id="phoneNumber" @bind-Value="contact.PhoneNumber" />
+    </div>
+    <button type="submit">Update Contact</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Contact contact;
+
+    protected override void OnInitialized()
+    {
+        contact = ContactService.GetContact(Id);
+        if (contact == null)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
+    private void HandleValidSubmit()
+    {
+        ContactService.UpdateContact(contact);
+        NavigationManager.NavigateTo("/"); // Navigate back to the main list
+    }
+}
